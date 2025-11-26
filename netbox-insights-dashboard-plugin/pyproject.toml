@@ -1,0 +1,65 @@
+# See PEP 518 for the spec of this file
+# https://www.python.org/dev/peps/pep-0518/
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name =  "netbox-insights-dashboard-plugin"
+version = "1.0.0"
+authors = [
+    {name = "Dan Ashton", email = "dashton956@gmail.com"},
+]
+description = "Universal analytics and operational visibility dashboard for NetBox with vendor-agnostic architecture"
+readme = "README.md"
+license = {text = "MIT"}
+keywords = ["netbox", "netbox-plugin", "dashboard", "analytics", "ipam", "monitoring"]
+
+classifiers=[
+    'Development Status :: 4 - Beta',
+    'Framework :: Django',
+    'Intended Audience :: System Administrators',
+    'Intended Audience :: Telecommunications Industry',
+    'License :: OSI Approved :: MIT License',
+    'Natural Language :: English',
+    "Programming Language :: Python :: 3 :: Only",
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Topic :: System :: Networking',
+    'Topic :: System :: Systems Administration',
+]
+
+requires-python = ">=3.8.0"
+
+dependencies = [
+    "netbox>=4.0.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "black==24.3.0",
+    "check-manifest==0.49",
+    "flake8",
+    "flake8-pyproject",
+    "pre-commit==3.7.0",
+    "pytest==8.1.1",
+]
+
+[project.urls]
+Documentation = "https://github.com/Dashton956-alt/netbox-insights-dashboard-plugin/blob/main/README.md"
+Source = "https://github.com/Dashton956-alt/netbox-insights-dashboard-plugin"
+Tracker = "https://github.com/Dashton956-alt/netbox-insights-dashboard-plugin/issues"
+
+[tool.black]
+line-length = 120
+target_version = ['py39', 'py310', 'py311', 'py312']
+
+[tool.setuptools.package-data]
+netbox_insights_dashboard_plugin = [
+    "templates/**",
+    "static/**",
+]

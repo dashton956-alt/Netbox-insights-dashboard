@@ -1,0 +1,69 @@
+<!-- Data Quality & Compliance Widget Template -->
+<div class="data-quality-widget">
+    <!-- Quality Score -->
+    <div class="text-center mb-3 p-3 rounded" style="background-color: rgba(var(--bs-{{ context.status }}-rgb), 0.1);">
+        <div class="h2 mb-0">
+            {{ context.status_emoji }} {{ context.quality_score }}%
+        </div>
+        <div class="text-muted">Data Quality Score</div>
+    </div>
+
+    <!-- Compliance Summary -->
+    <div class="row mb-3">
+        <div class="col-6 text-center">
+            <div class="stat-value text-success">{{ context.compliant_devices }}</div>
+            <div class="stat-label small">Compliant</div>
+        </div>
+        <div class="col-6 text-center">
+            <div class="stat-value text-danger">{{ context.non_compliant_devices }}</div>
+            <div class="stat-label small">Non-Compliant</div>
+        </div>
+    </div>
+
+    <!-- Issues Breakdown -->
+    <h6 class="mb-2">Issues Found ({{ context.total_issues }} total)</h6>
+    <ul class="list-unstyled mb-3">
+        <li class="mb-1">
+            <span class="badge bg-secondary">{{ context.issue_counts.missing_fields_count }}</span>
+            Missing Required Fields
+        </li>
+        <li class="mb-1">
+            <span class="badge bg-secondary">{{ context.issue_counts.missing_primary_ip_count }}</span>
+            Missing Primary IP
+        </li>
+        <li class="mb-1">
+            <span class="badge bg-secondary">{{ context.issue_counts.duplicate_serials_count }}</span>
+            Duplicate Serial Numbers
+        </li>
+        <li class="mb-1">
+            <span class="badge bg-secondary">{{ context.issue_counts.duplicate_macs_count }}</span>
+            Duplicate MAC Addresses
+        </li>
+    </ul>
+
+    <!-- Cable Validation -->
+    <h6 class="mb-2">Cable Validation</h6>
+    <div class="mb-3">
+        <div class="progress" style="height: 20px;">
+            <div class="progress-bar bg-success" 
+                 role="progressbar" 
+                 style="width: {{ context.cable_validation.health_percentage }}%">
+                {{ context.cable_validation.valid }} Valid
+            </div>
+        </div>
+        <div class="small text-muted mt-1">
+            {{ context.cable_validation.valid }} valid, {{ context.cable_validation.invalid }} invalid
+        </div>
+    </div>
+
+    <!-- Top Recommendations -->
+    {% if context.recommendations %}
+    <h6 class="mb-2">Top Recommendations</h6>
+    {% for rec in context.recommendations|slice:":3" %}
+    <div class="alert alert-sm alert-{{ rec.priority }} py-2 mb-2">
+        <strong>{{ rec.title }}</strong>
+        <div class="small">{{ rec.action }}</div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>

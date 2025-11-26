@@ -1,0 +1,84 @@
+<!-- Capacity Planning Widget Template -->
+<div class="capacity-widget">
+    <!-- 30-Day Growth Summary -->
+    <h6 class="mb-2">30-Day Growth</h6>
+    <div class="row mb-3">
+        <div class="col-4 text-center">
+            <div class="stat-value">{{ context.growth_30_days.devices.new }}</div>
+            <div class="stat-label small">New Devices</div>
+            <div class="small text-success">+{{ context.growth_30_days.devices.growth_rate }}%</div>
+        </div>
+        <div class="col-4 text-center">
+            <div class="stat-value">{{ context.growth_30_days.prefixes.new }}</div>
+            <div class="stat-label small">New Prefixes</div>
+            <div class="small text-success">+{{ context.growth_30_days.prefixes.growth_rate }}%</div>
+        </div>
+        <div class="col-4 text-center">
+            <div class="stat-value">{{ context.growth_30_days.circuits.new }}</div>
+            <div class="stat-label small">New Circuits</div>
+            <div class="small text-success">+{{ context.growth_30_days.circuits.growth_rate }}%</div>
+        </div>
+    </div>
+
+    <!-- 6-Month Forecast -->
+    <h6 class="mb-2">6-Month Forecast</h6>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Resource</th>
+                <th class="text-end">Current</th>
+                <th class="text-end">Projected</th>
+                <th class="text-end">Growth</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Devices</td>
+                <td class="text-end">{{ context.forecast_6_months.devices.current }}</td>
+                <td class="text-end">{{ context.forecast_6_months.devices.forecasted }}</td>
+                <td class="text-end text-success">+{{ context.forecast_6_months.devices.growth }}</td>
+            </tr>
+            <tr>
+                <td>Prefixes</td>
+                <td class="text-end">{{ context.forecast_6_months.prefixes.current }}</td>
+                <td class="text-end">{{ context.forecast_6_months.prefixes.forecasted }}</td>
+                <td class="text-end text-success">+{{ context.forecast_6_months.prefixes.growth }}</td>
+            </tr>
+            <tr>
+                <td>Circuits</td>
+                <td class="text-end">{{ context.forecast_6_months.circuits.current }}</td>
+                <td class="text-end">{{ context.forecast_6_months.circuits.forecasted }}</td>
+                <td class="text-end text-success">+{{ context.forecast_6_months.circuits.growth }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Rack Utilization -->
+    {% if context.rack_utilization %}
+    <h6 class="mb-2 mt-3">Top Rack Utilization by Site</h6>
+    {% for site in context.rack_utilization|slice:":5" %}
+    <div class="mb-2">
+        <div class="d-flex justify-content-between mb-1">
+            <span class="small">{{ site.site }}</span>
+            <span class="badge bg-secondary">{{ site.utilization }}%</span>
+        </div>
+        <div class="progress" style="height: 6px;">
+            <div class="progress-bar" 
+                 role="progressbar" 
+                 style="width: {{ site.utilization }}%">
+            </div>
+        </div>
+        <div class="small text-muted">
+            {{ site.used_u_space }} / {{ site.total_u_space }} U used ({{ site.total_racks }} racks)
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- Sites Near Capacity -->
+    {% if context.sites_near_capacity %}
+    <div class="alert alert-warning alert-sm mt-3">
+        <strong>⚠️ {{ context.sites_near_capacity|length }} site(s)</strong> approaching capacity threshold
+    </div>
+    {% endif %}
+</div>

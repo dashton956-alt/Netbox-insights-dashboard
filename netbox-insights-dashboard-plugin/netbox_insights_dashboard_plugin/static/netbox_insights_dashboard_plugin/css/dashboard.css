@@ -1,0 +1,193 @@
+/* NetBox Insights Dashboard CSS */
+
+/* Widget Cards */
+.widget-card {
+    transition: box-shadow 0.3s ease;
+    border: 1px solid #dee2e6;
+}
+
+.widget-card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.widget-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.widget-loading {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.widget-content {
+    min-height: 200px;
+}
+
+/* Stat Cards */
+.stat-card {
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+/* Progress Bars */
+.progress {
+    background-color: #e9ecef;
+}
+
+.progress-bar.bg-healthy,
+.progress-bar.bg-success {
+    background-color: #28a745 !important;
+}
+
+.progress-bar.bg-warning {
+    background-color: #ffc107 !important;
+}
+
+.progress-bar.bg-danger,
+.progress-bar.bg-critical {
+    background-color: #dc3545 !important;
+}
+
+/* Prefix List */
+.prefix-item {
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    background-color: #f8f9fa;
+    transition: background-color 0.2s ease;
+}
+
+.prefix-item:hover {
+    background-color: #e9ecef;
+}
+
+.prefix-label a {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.prefix-label a:hover {
+    text-decoration: underline;
+}
+
+/* Device List */
+.device-item {
+    transition: border-color 0.2s ease;
+}
+
+.device-item:hover {
+    border-color: #0d6efd !important;
+}
+
+/* Alert List */
+.alert-sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.alert-list .alert:last-child {
+    margin-bottom: 0;
+}
+
+/* Badge Colors */
+.badge.bg-healthy {
+    background-color: #28a745 !important;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000;
+}
+
+.badge.bg-danger,
+.badge.bg-critical {
+    background-color: #dc3545 !important;
+}
+
+/* Utility Classes */
+.bg-opacity-10 {
+    opacity: 0.1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .widget-icon {
+        font-size: 1.2rem;
+    }
+}
+
+/* Loading Animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.widget-loading .spinner-border {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Table Styling */
+.table-sm td, .table-sm th {
+    padding: 0.3rem;
+}
+
+/* Site Connectivity */
+.site-connectivity-list .border {
+    border-color: #dee2e6 !important;
+    transition: all 0.2s ease;
+}
+
+.site-connectivity-list .border:hover {
+    border-color: #0d6efd !important;
+    background-color: #f8f9fa;
+}
+
+/* Scrollable Widget Content */
+.widget-body {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.widget-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.widget-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.widget-body::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.widget-body::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

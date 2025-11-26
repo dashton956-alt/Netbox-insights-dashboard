@@ -1,0 +1,67 @@
+<!-- Device Health Monitor Widget Template -->
+<div class="device-health-widget">
+    <!-- Overall Health Score -->
+    <div class="text-center mb-3 p-3 bg-light rounded">
+        <div class="h2 mb-0">{{ context.overall_health }}%</div>
+        <div class="text-muted">Overall Health Score</div>
+    </div>
+
+    <!-- Status Summary -->
+    <div class="row mb-3">
+        <div class="col-4 text-center">
+            <div class="stat-value text-success">{{ context.healthy_count }}</div>
+            <div class="stat-label small">Healthy</div>
+        </div>
+        <div class="col-4 text-center">
+            <div class="stat-value text-warning">{{ context.warning_count }}</div>
+            <div class="stat-label small">Warning</div>
+        </div>
+        <div class="col-4 text-center">
+            <div class="stat-value text-danger">{{ context.critical_count }}</div>
+            <div class="stat-label small">Critical</div>
+        </div>
+    </div>
+
+    <!-- Common Issues -->
+    <h6 class="mb-2">Common Issues</h6>
+    <ul class="list-unstyled">
+        <li class="mb-1">
+            <span class="badge bg-secondary">{{ context.common_issues.no_primary_ip }}</span>
+            Missing Primary IP
+        </li>
+        <li class="mb-1">
+            <span class="badge bg-secondary">{{ context.common_issues.no_interfaces }}</span>
+            No Interfaces
+        </li>
+        <li class="mb-1">
+            <span class="badge bg-secondary">{{ context.common_issues.no_site }}</span>
+            No Site Assigned
+        </li>
+        <li class="mb-1">
+            <span class="badge bg-secondary">{{ context.common_issues.no_role }}</span>
+            No Role Assigned
+        </li>
+    </ul>
+
+    <!-- Critical Devices -->
+    {% if context.critical_devices %}
+    <h6 class="mb-2 mt-3">Devices Needing Attention</h6>
+    <div class="device-list">
+        {% for device_data in context.critical_devices|slice:":5" %}
+        <div class="device-item mb-2 p-2 border rounded">
+            <div class="d-flex justify-content-between">
+                <a href="/dcim/devices/{{ device_data.device.pk }}/" target="_blank">
+                    {{ device_data.device.name }}
+                </a>
+                <span class="badge bg-danger">{{ device_data.score }}%</span>
+            </div>
+            <div class="small text-muted mt-1">
+                {% for issue in device_data.issues|slice:":3" %}
+                <div>• {{ issue }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>

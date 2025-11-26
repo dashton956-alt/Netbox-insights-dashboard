@@ -1,0 +1,208 @@
+{% extends 'base/layout.html' %}
+
+{% block title %}Dashboard Configuration{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1>⚙️ Insights Dashboard Configuration</h1>
+            <p class="text-muted">
+                Configure thresholds, timeframes, and settings for dashboard widgets.
+            </p>
+        </div>
+    </div>
+
+    <div class="alert alert-info">
+        <i class="mdi mdi-information"></i>
+        <strong>Note:</strong> Most configuration is managed through the NetBox <code>configuration.py</code> file.
+        Add settings to <code>PLUGINS_CONFIG['netbox_insights_dashboard_plugin']</code> to customize widget behavior.
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">IPAM Settings</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Setting</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>Warning Threshold</td>
+                            <td><code>75%</code></td>
+                        </tr>
+                        <tr>
+                            <td>Critical Threshold</td>
+                            <td><code>90%</code></td>
+                        </tr>
+                        <tr>
+                            <td>Refresh Interval</td>
+                            <td><code>60s</code></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Device Health Settings</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Setting</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>Stale Data Threshold</td>
+                            <td><code>30 days</code></td>
+                        </tr>
+                        <tr>
+                            <td>Refresh Interval</td>
+                            <td><code>300s</code></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Data Quality Settings</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Setting</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>Minimum Quality Score</td>
+                            <td><code>80%</code></td>
+                        </tr>
+                        <tr>
+                            <td>Required Fields</td>
+                            <td><code>name, site, status</code></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Predictive Maintenance Settings</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Setting</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>Trend Analysis Period</td>
+                            <td><code>90 days</code></td>
+                        </tr>
+                        <tr>
+                            <td>Forecast Horizon</td>
+                            <td><code>180 days</code></td>
+                        </tr>
+                        <tr>
+                            <td>Growth Rate Threshold</td>
+                            <td><code>5.0%</code></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Capacity Planning Settings</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Setting</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>Historical Period</td>
+                            <td><code>90 days</code></td>
+                        </tr>
+                        <tr>
+                            <td>Capacity Warning Threshold</td>
+                            <td><code>80%</code></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">General Settings</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Setting</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>Enable Caching</td>
+                            <td><code>True</code></td>
+                        </tr>
+                        <tr>
+                            <td>Cache TTL</td>
+                            <td><code>300s</code></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Example Configuration</h5>
+        </div>
+        <div class="card-body">
+            <p>Add the following to your <code>/opt/netbox/netbox/netbox/configuration.py</code>:</p>
+            <pre><code>PLUGINS_CONFIG = {
+    'netbox_insights_dashboard_plugin': {
+        # IPAM Widget Settings
+        'ipam_warning_threshold': 75,
+        'ipam_critical_threshold': 90,
+        'ipam_refresh_interval': 60,
+        
+        # Device Health Settings
+        'stale_data_days': 30,
+        'required_device_fields': ['site', 'device_role', 'device_type'],
+        'health_refresh_interval': 300,
+        
+        # Data Quality Settings
+        'min_quality_score': 80,
+        'naming_conventions': {},
+        'required_fields': ['name', 'site', 'status'],
+        
+        # Predictive Maintenance Settings
+        'trend_period_days': 90,
+        'forecast_horizon_days': 180,
+        'growth_rate_threshold': 5.0,
+        
+        # Capacity Planning Settings
+        'historical_period_days': 90,
+        'capacity_warning_threshold': 80,
+        
+        # General Settings
+        'enable_caching': True,
+        'cache_ttl': 300,
+    }
+}</code></pre>
+        </div>
+    </div>
+</div>
+{% endblock %}

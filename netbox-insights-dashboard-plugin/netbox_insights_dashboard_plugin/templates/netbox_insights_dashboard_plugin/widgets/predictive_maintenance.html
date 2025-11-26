@@ -1,0 +1,73 @@
+<!-- Predictive Maintenance Widget Template -->
+<div class="predictive-widget">
+    <!-- Alert Summary -->
+    <div class="row mb-3">
+        <div class="col-4 text-center">
+            <div class="stat-card p-2 bg-danger bg-opacity-10 rounded">
+                <div class="stat-value text-danger">{{ context.high_priority_count }}</div>
+                <div class="stat-label small">High Priority</div>
+            </div>
+        </div>
+        <div class="col-4 text-center">
+            <div class="stat-card p-2 bg-warning bg-opacity-10 rounded">
+                <div class="stat-value text-warning">{{ context.medium_priority_count }}</div>
+                <div class="stat-label small">Medium Priority</div>
+            </div>
+        </div>
+        <div class="col-4 text-center">
+            <div class="stat-card p-2 bg-info bg-opacity-10 rounded">
+                <div class="stat-value text-info">{{ context.low_priority_count }}</div>
+                <div class="stat-label small">Low Priority</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- High Priority Alerts -->
+    {% if context.high_priority_alerts %}
+    <h6 class="mb-2 text-danger">🔴 High Priority Alerts</h6>
+    <div class="alert-list mb-3">
+        {% for alert in context.high_priority_alerts|slice:":5" %}
+        <div class="alert alert-danger alert-sm py-2 mb-2">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <strong>{{ alert.prefix|default:alert.device }}</strong>
+                    <div class="small">{{ alert.message }}</div>
+                    {% if alert.estimated_exhaustion %}
+                    <div class="small text-muted">
+                        <i class="mdi mdi-clock-outline"></i>
+                        ETA: {{ alert.estimated_exhaustion|slice:":10" }}
+                    </div>
+                    {% endif %}
+                </div>
+                <span class="badge bg-danger">{{ alert.type }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-success mb-3">
+        <i class="mdi mdi-check-circle"></i>
+        No high priority alerts - all systems healthy!
+    </div>
+    {% endif %}
+
+    <!-- Medium Priority Alerts -->
+    {% if context.medium_priority_alerts %}
+    <h6 class="mb-2 text-warning">🟡 Medium Priority Alerts</h6>
+    <div class="alert-list">
+        {% for alert in context.medium_priority_alerts|slice:":3" %}
+        <div class="alert alert-warning alert-sm py-2 mb-2">
+            <div class="small">
+                <strong>{{ alert.prefix|default:alert.device }}</strong> - {{ alert.message }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Analysis Info -->
+    <div class="small text-muted mt-3">
+        <i class="mdi mdi-information-outline"></i>
+        Based on {{ context.trend_period_days }} day trend analysis
+    </div>
+</div>

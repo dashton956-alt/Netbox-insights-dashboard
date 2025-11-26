@@ -1,0 +1,82 @@
+<!-- Network Topology Status Widget Template -->
+<div class="topology-widget">
+    <!-- Overall Health -->
+    <div class="text-center mb-3 p-3 bg-light rounded">
+        <div class="h2 mb-0">
+            {{ context.health_emoji }} {{ context.overall_health }}%
+        </div>
+        <div class="text-muted">Network Health</div>
+    </div>
+
+    <!-- Cable Health -->
+    <h6 class="mb-2">Cable Connections</h6>
+    <div class="row mb-3">
+        <div class="col-6 text-center">
+            <div class="stat-value text-success">{{ context.cable_health.valid }}</div>
+            <div class="stat-label small">Valid</div>
+        </div>
+        <div class="col-6 text-center">
+            <div class="stat-value text-danger">{{ context.cable_health.invalid }}</div>
+            <div class="stat-label small">Invalid</div>
+        </div>
+    </div>
+    <div class="progress mb-3" style="height: 20px;">
+        <div class="progress-bar bg-success" 
+             role="progressbar" 
+             style="width: {{ context.cable_health.health_percentage }}%">
+            {{ context.cable_health.health_percentage }}%
+        </div>
+    </div>
+
+    <!-- Interface Status -->
+    <h6 class="mb-2">Interface Status</h6>
+    <div class="row mb-3">
+        <div class="col-3 text-center">
+            <div class="stat-value">{{ context.interface_status.total }}</div>
+            <div class="stat-label small">Total</div>
+        </div>
+        <div class="col-3 text-center">
+            <div class="stat-value text-success">{{ context.interface_status.enabled }}</div>
+            <div class="stat-label small">Enabled</div>
+        </div>
+        <div class="col-3 text-center">
+            <div class="stat-value text-info">{{ context.interface_status.connected }}</div>
+            <div class="stat-label small">Connected</div>
+        </div>
+        <div class="col-3 text-center">
+            <div class="stat-value text-muted">{{ context.interface_status.disconnected }}</div>
+            <div class="stat-label small">Free</div>
+        </div>
+    </div>
+
+    <!-- Site Connectivity -->
+    {% if context.site_connectivity %}
+    <h6 class="mb-2">Inter-Site Links</h6>
+    <div class="site-connectivity-list">
+        {% for site in context.site_connectivity|slice:":8" %}
+        <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
+            <div>
+                <strong>{{ site.site }}</strong>
+                <div class="small text-muted">
+                    Connected to {{ site.connection_count }} site(s)
+                </div>
+            </div>
+            <span class="badge bg-primary">{{ site.inter_site_links }} links</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Circuit Summary -->
+    <h6 class="mb-2 mt-3">Circuits</h6>
+    <div class="row">
+        <div class="col-6 text-center">
+            <div class="stat-value">{{ context.circuit_summary.total }}</div>
+            <div class="stat-label small">Total</div>
+        </div>
+        <div class="col-6 text-center">
+            <div class="stat-value text-success">{{ context.circuit_summary.active }}</div>
+            <div class="stat-label small">Active</div>
+        </div>
+    </div>
+</div>

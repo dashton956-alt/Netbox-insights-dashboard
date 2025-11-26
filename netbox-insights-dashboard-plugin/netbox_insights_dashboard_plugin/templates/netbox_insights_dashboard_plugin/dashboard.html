@@ -1,0 +1,78 @@
+{% extends 'base/layout.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="d-inline-block">
+                📊 NetBox Insights Dashboard
+            </h1>
+            <div class="float-end">
+                <span class="text-muted small" id="last-refresh">
+                    Last updated: <span id="refresh-time">Just now</span>
+                </span>
+                <button class="btn btn-sm btn-outline-primary ms-2" id="refresh-all" title="Refresh All Widgets">
+                    <i class="mdi mdi-refresh"></i> Refresh
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {% if not widgets %}
+    <div class="alert alert-warning">
+        <i class="mdi mdi-alert"></i>
+        No widgets are currently enabled. Check your plugin configuration to enable widgets.
+    </div>
+    {% else %}
+    
+    <div class="row g-3">
+        {% for widget in widgets %}
+        <div class="col-lg-6 col-xl-4" data-widget-slug="{{ widget.slug }}">
+            <div class="card widget-card h-100" id="widget-{{ widget.slug }}">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <span class="widget-icon">{{ widget.icon }}</span>
+                        {{ widget.name }}
+                    </h5>
+                    <div class="card-subtitle text-muted small">
+                        {{ widget.description }}
+                    </div>
+                </div>
+                <div class="card-body widget-body">
+                    <div class="widget-loading text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2 text-muted">Loading widget data...</p>
+                    </div>
+                    <div class="widget-content" style="display: none;">
+                        {% include widget.template with context=widget.context %}
+                    </div>
+                    <div class="widget-error" style="display: none;">
+                        <div class="alert alert-danger mb-0">
+                            <i class="mdi mdi-alert-circle"></i>
+                            <strong>Error loading widget</strong>
+                            <p class="mb-0 small widget-error-message"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted small">
+                    <i class="mdi mdi-clock-outline"></i>
+                    Auto-refresh: {{ widget.refresh_interval }}s
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'netbox_insights_dashboard_plugin/js/widgets.js' %}"></script>
+<link rel="stylesheet" href="{% static 'netbox_insights_dashboard_plugin/css/dashboard.css' %}">
+{% endblock %}

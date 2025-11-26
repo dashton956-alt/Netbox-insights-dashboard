@@ -1,0 +1,57 @@
+<!-- IPAM Utilization Widget Template -->
+<div class="ipam-widget">
+    <!-- Summary Cards -->
+    <div class="row mb-3">
+        <div class="col-4">
+            <div class="stat-card text-center p-2 bg-success bg-opacity-10 rounded">
+                <div class="stat-value text-success">{{ context.summary.healthy }}</div>
+                <div class="stat-label small">🟢 Healthy</div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="stat-card text-center p-2 bg-warning bg-opacity-10 rounded">
+                <div class="stat-value text-warning">{{ context.summary.warning }}</div>
+                <div class="stat-label small">🟡 Warning</div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="stat-card text-center p-2 bg-danger bg-opacity-10 rounded">
+                <div class="stat-value text-danger">{{ context.summary.critical }}</div>
+                <div class="stat-label small">🔴 Critical</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Prefixes by Utilization -->
+    <h6 class="mb-2">Top Prefixes by Utilization</h6>
+    <div class="prefix-list">
+        {% for prefix in context.top_prefixes|slice:":10" %}
+        <div class="prefix-item mb-2">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="prefix-label">
+                    <span class="me-1">{{ prefix.emoji }}</span>
+                    <a href="/ipam/prefixes/{{ prefix.prefix_id }}/" target="_blank">
+                        {{ prefix.prefix }}
+                    </a>
+                    <small class="text-muted">- {{ prefix.site }}</small>
+                </span>
+                <span class="badge bg-{{ prefix.status }}">{{ prefix.utilization }}%</span>
+            </div>
+            <div class="progress" style="height: 8px;">
+                <div class="progress-bar bg-{{ prefix.status }}" 
+                     role="progressbar" 
+                     style="width: {{ prefix.utilization }}%"
+                     aria-valuenow="{{ prefix.utilization }}" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100">
+                </div>
+            </div>
+            <div class="small text-muted">
+                {{ prefix.used_ips }} / {{ prefix.total_ips }} IPs used
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted text-center py-3">No prefix data available</p>
+        {% endfor %}
+    </div>
+</div>
