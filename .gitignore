@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# Distribution/build
+dist/
+build/
+*.egg-info/
+
+# Pytest
+.pytest_cache/
+
+# Mypy
+.mypy_cache/
+
+# VSCode
+.vscode/
+
+# OS files
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+*.so
+
+# Coverage
+htmlcov/
+.coverage
+
+# NetBox and plugin local files
+instance/ 
+*.sqlite3
+
+# Local settings
+local_settings.py
+
+# Logs
+*.log
+
+# secrets
+.env
+secrets.yaml
