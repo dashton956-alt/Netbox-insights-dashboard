@@ -22,7 +22,7 @@ class TopologyStatusWidget(BaseWidget):
     - Circuit tracking
     """
     
-    slug = "topology_status"
+    slug = "topology-status"
     name = "Network Topology Status"
     description = "Monitor network connectivity, cables, and topology health"
     icon = "🔗"

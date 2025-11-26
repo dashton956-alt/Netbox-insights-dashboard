@@ -24,7 +24,7 @@ class DataQualityWidget(BaseWidget):
     - Actionable recommendations
     """
     
-    slug = "data_quality"
+    slug = "data-quality"
     name = "Data Quality & Compliance"
     description = "Monitor data completeness, accuracy, and compliance"
     icon = "✅"

@@ -24,7 +24,7 @@ class CapacityPlanningWidget(BaseWidget):
     - Forecast projections
     """
     
-    slug = "capacity_planning"
+    slug = "capacity-planning"
     name = "Capacity Planning"
     description = "Track growth trends and forecast capacity requirements"
     icon = "📈"

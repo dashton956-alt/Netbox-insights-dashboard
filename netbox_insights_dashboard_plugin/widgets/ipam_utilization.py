@@ -22,7 +22,7 @@ class IPAMUtilizationWidget(BaseWidget):
     - Quick filters and drill-down links
     """
     
-    slug = "ipam_utilization"
+    slug = "ipam-utilization"
     name = "IPAM Utilization"
     description = "Monitor IP address and VLAN usage across your network"
     icon = "🌐"

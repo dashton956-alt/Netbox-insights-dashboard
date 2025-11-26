@@ -22,7 +22,7 @@ class DeviceHealthWidget(BaseWidget):
     - Health score trending
     """
     
-    slug = "device_health"
+    slug = "device-health"
     name = "Device Health Monitor"
     description = "Track device health and identify data quality issues"
     icon = "💚"

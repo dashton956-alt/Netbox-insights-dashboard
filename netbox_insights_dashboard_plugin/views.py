@@ -59,16 +59,24 @@ class BaseWidgetView(LoginRequiredMixin, View):
         if not self.widget_class:
             return JsonResponse({'error': 'No widget class specified'}, status=400)
         
-        widget = self.widget_class(request=request)
-        
-        if not widget.is_enabled():
-            return JsonResponse({'error': 'Widget is disabled'}, status=403)
-        
         try:
+            widget = self.widget_class(request=request)
+            
+            if not widget.is_enabled():
+                return JsonResponse({'error': 'Widget is disabled'}, status=403)
+            
             data = widget.get_context_data()
             return JsonResponse(data, safe=False)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            # Log the error for debugging
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Error loading widget {self.widget_class.__name__}: {str(e)}", exc_info=True)
+            
+            return JsonResponse({
+                'error': 'Failed to load widget data',
+                'details': str(e) if settings.DEBUG else 'Internal server error'
+            }, status=500)
 
 
 class IPAMUtilizationWidgetView(BaseWidgetView):
@@ -116,10 +124,50 @@ class CapacityPlanningWidgetView(BaseWidgetView):
         return super().get(request, *args, **kwargs)
 
 
-class TopologyStatusWidgetView(BaseWidgetView):
-    """AJAX endpoint for Topology Status widget data."""
+class HealthCheckView(View):
+    """Simple health check endpoint for monitoring."""
     
     def get(self, request, *args, **kwargs):
-        from .widgets.topology_status import TopologyStatusWidget
-        self.widget_class = TopologyStatusWidget
-        return super().get(request, *args, **kwargs)
+        """Return plugin health status."""
+        from django.db import connection
+        from django.core.cache import cache
+        
+        health_status = {
+            'status': 'healthy',
+            'timestamp': timezone.now().isoformat(),
+            'version': '1.0.0',
+            'checks': {}
+        }
+        
+        # Check database connectivity
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT 1")
+            health_status['checks']['database'] = 'ok'
+        except Exception as e:
+            health_status['checks']['database'] = f'error: {str(e)}'
+            health_status['status'] = 'unhealthy'
+        
+        # Check cache
+        try:
+            cache.set('health_check', 'ok', 10)
+            cache_value = cache.get('health_check')
+            if cache_value == 'ok':
+                health_status['checks']['cache'] = 'ok'
+            else:
+                health_status['checks']['cache'] = 'error: cache not working'
+                health_status['status'] = 'unhealthy'
+        except Exception as e:
+            health_status['checks']['cache'] = f'error: {str(e)}'
+            health_status['status'] = 'unhealthy'
+        
+        # Check widgets
+        try:
+            widget_classes = get_all_widgets()
+            health_status['checks']['widgets'] = f'{len(widget_classes)} widgets loaded'
+        except Exception as e:
+            health_status['checks']['widgets'] = f'error: {str(e)}'
+            health_status['status'] = 'unhealthy'
+        
+        status_code = 200 if health_status['status'] == 'healthy' else 503
+        return JsonResponse(health_status, status=status_code)

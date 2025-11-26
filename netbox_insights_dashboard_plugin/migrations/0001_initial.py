@@ -161,7 +161,7 @@ class Migration(migrations.Migration):
             index=models.Index(fields=['device', '-checked_at'], name='netbox_insi_device__idx'),
         ),
         migrations.AddIndex(
-            model_name='ipamutiization',
+            model_name='ipamutilization',
             index=models.Index(fields=['prefix', '-calculated_at'], name='netbox_insi_prefix__idx'),
         ),
         migrations.AddIndex(

@@ -23,7 +23,7 @@ class PredictiveMaintenanceWidget(BaseWidget):
     - Priority-based alerts
     """
     
-    slug = "predictive_maintenance"
+    slug = "predictive-maintenance"
     name = "Predictive Maintenance"
     description = "Proactive alerts based on trend analysis and forecasting"
     icon = "🔮"

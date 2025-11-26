@@ -20,6 +20,9 @@ urlpatterns = [
     path('widgets/capacity/', views.CapacityPlanningWidgetView.as_view(), name='widget_capacity'),
     path('widgets/topology/', views.TopologyStatusWidgetView.as_view(), name='widget_topology'),
     
+    # Health check endpoint
+    path('health/', views.HealthCheckView.as_view(), name='health_check'),
+    
     # API endpoints
     path('api/', include('netbox_insights_dashboard_plugin.api.urls')),
 ]
